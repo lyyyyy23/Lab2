@@ -8,7 +8,7 @@
         <div class="modal-body">
           <br>
             <?php foreach ($playlists as $playlist): ?>
-              <a href="/playlist/ <?=$playlist['playlistID']?>"><?=$playlist['playlistName']?></a>
+              <a href="/playlists/ <?=$playlist['playlist_ID']?>"><?=$playlist['playlistName']?></a>
               <br>
               <?php endforeach; ?>
 
@@ -17,7 +17,7 @@
         <div class="modal-footer">
           <form action="/createPlaylist" method="post">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Enter Playlist Name" aria-describedby="button-addon2" name="playlistName">
+                        <input type="text" class="form-control" required placeholder="Enter Playlist Name" aria-describedby="button-addon2" name="playlistName">
                         <input class="btn btn-primary" type="submit" value="Create Playlist">
                     </div>
           </form>

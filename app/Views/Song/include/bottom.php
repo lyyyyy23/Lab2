@@ -62,3 +62,8 @@
 
         playTrack(currentTrack);
     </script>
+    <script>
+        function setMusicID(songID){
+            document.getElementById('SongID').value = songID;
+        }
+    </script>

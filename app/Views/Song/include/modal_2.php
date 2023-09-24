@@ -13,7 +13,7 @@
             <form action="/savePlaylist" method="post">
               <!-- <p id="modalData"></p> -->
                 <input type="hidden" id="SongID" name="SongID">
-                  <select  name="playlist" class="form-control" >
+                  <select  name="playlistID" class="form-control" >
                     <?php foreach ($playlists as $playlist): ?>
                   
                     <option value="<?=$playlist['playlist_ID']?>" >

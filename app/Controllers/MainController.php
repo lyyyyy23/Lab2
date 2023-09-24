@@ -22,9 +22,8 @@ class MainController extends BaseController
 
     public function index(){
         $data = [
-            'playlist' => $this->playlist->findAll(),
-            'playlistTrack' => $this->playlistTrack->findAll(),
-            'song' => $this->song->findAll()
+            'playlists' => $this->playlist->findAll(),
+            'songs' => $this->song->findAll()
         ];
         return view('Song\index', $data);
     }
@@ -40,9 +39,9 @@ class MainController extends BaseController
         $rule=[
             'songFile' => [
                 'uploaded[songFile]',
-                'mime_in [songFile,audio/mpeg]',
+                'mime_in[songFile,audio/mpeg]',
                 'max_size[songFile,10240]',
-                'ext_in [songFile,mp3]'
+                'ext_in[songFile,mp3]'
             ]
         ];
 
@@ -68,8 +67,8 @@ class MainController extends BaseController
         if(!empty($searchLike)){
             
             $data = [
-                'playlist' => $this->playlist->findAll(),
-                'song' => $this->songs->like('songName', $searchLike)->findAll()
+                'playlists' => $this->playlist->findAll(),
+                'songs' => $this->song->like('songName', $searchLike)->findAll()
             ];
             return view('Song\index', $data);
             
@@ -77,5 +76,54 @@ class MainController extends BaseController
             return redirect()->to('/');
         }
     }
+
+    public function createPlaylist(){
+        $data=[
+            'playlistName' => $this->request->getVar('playlistName'),
+        ];
+        $this->playlist->save($data);
+        return redirect()->to('/');
+
+    }
+    public function savePlaylist(){
+        $data = [
+            'song_ID' => $this->request->getVar('SongID'),
+            'playlist_ID' => $this->request->getVar('playlistID'),
+        ];
+      
+        $this->playlistTrack->save($data);
+        return redirect()->to('/');
+    }
+
+    public function playlists($id = null){
+        $db = \Config\Database::connect();
+        $builder = $db->table('songs');
+
+        $builder->select(['songs.ID', 'songs.songName', 'songs.songFile', 'playlist.playlistName','playlist.playlist_ID']);
+        $builder->join('playlist_track', 'songs.ID = playlist_track.song_ID');
+        $builder->join('playlist', 'playlist_track.playlist_ID = playlist.playlist_ID');
+
+        if ($id !== null) {
+            $builder->where('playlist.playlist_ID', $id);
+        }
+
+        $query = $builder->get();
+
+        $data = [
+            'playlists' => $this->playlist->findAll(),
+            'songs' => $this->song->findAll()
+        ];
+
+        if ($query) {
+            $data['songs'] = $query->getResultArray();
+        } else {
+            echo "Query failed";
+        }
+        
+        return view('Song\index', $data);
+    }
+    
+
+
 }
 
