@@ -8,4 +8,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'MainController::index');
 $routes->post('saveSong','MainController::saveSong');
+$routes->get('/searchSong','MainController::searchSong');
+$routes->post('createPlaylist','MainController::createPlaylist');
 

@@ -60,5 +60,22 @@ class MainController extends BaseController
             
         }return redirect()->to('/');
     }
+
+    public function searchSong(){
+        
+        $searchLike = $this->request->getVar('search');
+
+        if(!empty($searchLike)){
+            
+            $data = [
+                'playlist' => $this->playlist->findAll(),
+                'song' => $this->songs->like('songName', $searchLike)->findAll()
+            ];
+            return view('Song\index', $data);
+            
+        }else{
+            return redirect()->to('/');
+        }
+    }
 }
 

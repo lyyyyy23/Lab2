@@ -7,16 +7,20 @@
         </div>
         <div class="modal-body">
           <br>
-
-              <a href="/playlist/">your playlist</a>
+            <?php foreach ($playlists as $playlist): ?>
+              <a href="/playlist/ <?=$playlist['playlistID']?>"><?=$playlist['playlistName']?></a>
               <br>
+              <?php endforeach; ?>
 
 
         </div>
         <div class="modal-footer">
-          <a href="#" data-bs-dismiss="modal">Close</a>
-          <a href="#" data-bs-toggle="modal" data-bs-target="#createPlaylist">Create New</a>
-
+          <form action="/createPlaylist" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Enter Playlist Name" aria-describedby="button-addon2" name="playlistName">
+                        <input class="btn btn-primary" type="submit" value="Create Playlist">
+                    </div>
+          </form>
         </div>
       </div>
     </div>
